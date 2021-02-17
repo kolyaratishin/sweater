@@ -1,14 +1,19 @@
 package com.sweater.config;
 
 import com.sweater.service.UserService;
+import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -18,6 +23,14 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder (){
+        return new MessageDigestPasswordEncoder("MD5");
+    }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -29,6 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                     .permitAll()
                 .and()
+                    .rememberMe()
+                .and()
+
                     .logout()
                     .permitAll();
     }
@@ -36,6 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
+                .passwordEncoder(passwordEncoder);
     }
 }
