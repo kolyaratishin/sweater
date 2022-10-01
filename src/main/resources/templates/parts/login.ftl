@@ -4,7 +4,7 @@
         <label class="col-sm-2 col-form-label">User Name :</label>
         <div class="col-sm-6">
             <input class="form-control ${(usernameError??)?string('is-invalid','')}" type="text"
-                   value="<#if user??>${user.username}</#if>" name="username" placeholder="User name"/>
+                   value="<#if user??>${user.username}</#if>" name="username" placeholder="Username"/>
                 <#if usernameError??>
                     <div class="invalid-feedback">
                         ${usernameError}
@@ -58,7 +58,7 @@
     </div>
     </#if>
     <input type="hidden" name="_csrf" value="${_csrf.token}" />
-    <#if !isRegisterForm><a class="mt-3" href="/registration">Add new user</a></#if>
+    <#if !isRegisterForm><a class="mt-3" href="/registration">Registration</a></#if>
     <button class="btn btn-primary mt-3" type="submit"><#if isRegisterForm> Create <#else>Sign In</#if></button>
 </form>
 </#macro>

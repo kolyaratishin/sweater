@@ -6,7 +6,7 @@
         <form method="post" enctype="multipart/form-data">
             <div class="form-group mt-3">
                 <input class="form-control ${(textError??)?string('is-invalid','')}"
-                       value="<#if message??>${message.text}</#if>" name="text" type="text" placeholder="Введите сообщение"/>
+                       value="<#if message??>${message.text}</#if>" name="text" type="text" placeholder="Enter message"/>
                 <#if textError??>
                 <div class="invalid-feedback">
                     ${textError}
@@ -15,7 +15,7 @@
     </div>
     <div class="form-group">
         <input class="form-control "
-               value="<#if message??>${message.tag}</#if>" name="tag" type="text" placeholder="Тэг"/>
+               value="<#if message??>${message.tag}</#if>" name="tag" type="text" placeholder="Tag"/>
         <#if tagError??>
         <div class="invalid-feedback">
             ${tagError}
